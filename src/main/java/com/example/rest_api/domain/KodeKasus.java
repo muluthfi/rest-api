@@ -1,8 +1,7 @@
 package com.example.rest_api.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,18 +10,17 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name="Case")
+@Table
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 
-public class Case {
+public class KodeKasus {
     @Id
-    private BigDecimal id;
-    private BigDecimal documentId;
-    private Status status;
+    @Column
+    private BigDecimal kode;
 
-
-
+    @Column
+    private String name;
 }
