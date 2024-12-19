@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -19,8 +21,12 @@ import java.math.BigDecimal;
 public class KodeKasus {
     @Id
     @Column
-    private BigDecimal kode;
+    private BigDecimal id;
+
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kodeKasus")
+//    private List<KodeKasus> kodeKasus= new ArrayList<>();
 
     @Column
-    private String name;
+    private String namaKode;
 }

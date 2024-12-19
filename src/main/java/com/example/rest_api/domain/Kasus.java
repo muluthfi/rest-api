@@ -15,6 +15,8 @@ import java.util.List;
 @Table
 
 public class Kasus {
+
+
     @Id
     @GeneratedValue
     @Column
@@ -33,8 +35,8 @@ public class Kasus {
     @Column
     private Date createdDate;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @Column
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn
 //    private KodeKasus kodeKasus;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "kasus")

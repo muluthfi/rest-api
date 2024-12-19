@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface KasusRepo extends JpaRepository<Kasus, BigDecimal> {
@@ -18,6 +19,10 @@ public interface KasusRepo extends JpaRepository<Kasus, BigDecimal> {
     @NativeQuery("SELECT * FROM KASUS WHERE createdBy = ?1 ")
     List<Kasus> findAllByCreatedBySql (String createdBy);
     List<Kasus> findAll();
+    List<Kasus> findAllById(BigDecimal id);
+    Kasus getById(BigDecimal id);
+    void deleteById(BigDecimal id);
+
 
 
 

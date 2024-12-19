@@ -12,6 +12,11 @@ public interface ManajemenKasusComponent {
 
     List<Kasus> getAllByNip(String nip);
     List<Kasus> getAll();
+    List<Kasus> getAllById(BigDecimal id);
+    Kasus getById(BigDecimal id);
     Kasus createKasus(Kasus kasus);
+    void deleteById(BigDecimal id);
+    Kasus updateKasus(Kasus kasus);
+
 
 }
