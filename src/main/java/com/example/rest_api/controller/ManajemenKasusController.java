@@ -3,6 +3,8 @@ package com.example.rest_api.controller;
 import com.example.rest_api.controller.dto.CaseResponseDTO;
 import com.example.rest_api.core.feature.manajemenKasus.ManajemenKasusComponent;
 import com.example.rest_api.domain.Kasus;
+import com.example.rest_api.domain.RiwayatKasus;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,12 +58,13 @@ public class ManajemenKasusController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<CaseResponseDTO> createKasus(@RequestBody Kasus kasus){
+    public ResponseEntity<CaseResponseDTO> createKasus(@RequestBody Kasus kasus, RiwayatKasus riwayatKasus){
         CaseResponseDTO caseResponseDTO = new CaseResponseDTO();
-        kasus = manajemenKasusComponent.createKasus(kasus);
+        kasus = manajemenKasusComponent.createKasus(kasus, riwayatKasus);
         caseResponseDTO.setDocumentId(kasus.getDocumentId());
         caseResponseDTO.setNipPengusul(kasus.getCreatedBy());
         caseResponseDTO.setCreatedDate(kasus.getCreatedDate());
+        caseResponseDTO.setNipPengusul(riwayatKasus.getCreatedBy());
 //        caseResponseDTO.setStatus(kasus.getStatus());
         return new ResponseEntity<>(caseResponseDTO, HttpStatus.CREATED);
     }

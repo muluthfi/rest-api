@@ -5,16 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Data;
 
 import java.util.Date;
 import java.math.BigDecimal;
 
 @Entity
 @Table
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
-@Getter
 public class RiwayatKasus {
 
     @Id
@@ -35,6 +32,46 @@ public class RiwayatKasus {
 
     @Column
     private Date createdDate;
+
+    public BigDecimal getId() {
+        return id;
+    }
+
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    public Kasus getKasus() {
+        return kasus;
+    }
+
+    public void setKasus(Kasus kasus) {
+        this.kasus = kasus;
+    }
+
+    public Aktivitas getAktivitas() {
+        return aktivitas;
+    }
+
+    public void setAktivitas(Aktivitas aktivitas) {
+        this.aktivitas = aktivitas;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 
 
 }
