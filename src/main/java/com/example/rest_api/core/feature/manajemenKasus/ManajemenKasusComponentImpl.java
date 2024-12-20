@@ -50,12 +50,16 @@ class ManajemenKasusComponentImpl implements ManajemenKasusComponent{
         return kasus;
     }
 
-    public Kasus updateKasus(Kasus kasus){
-        kasus.setStatus(kasus.getStatus());
-        kasus.setCreatedBy(kasus.getCreatedBy());
-        kasus.setCreatedDate(kasus.getCreatedDate());
-        kasus.setDocumentId(kasus.getDocumentId());
-        kasus = kasusRepo.save(kasus);
+    public Kasus updateKasus(BigDecimal id, Kasus kasus){
+        Kasus kasusExist = kasusRepo.getById(id);
+        if(kasusExist.getId() == id){
+            kasus.setStatus(kasus.getStatus());
+            kasus.setCreatedBy(kasus.getCreatedBy());
+            kasus.setCreatedDate(kasusExist.getCreatedDate());
+            kasus.setDocumentId(kasus.getDocumentId());
+            kasus = kasusRepo.save(kasus);
+        }
+
         return kasus;
     }
 

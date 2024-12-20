@@ -61,10 +61,12 @@ public class ManajemenKasusController {
         kasus = manajemenKasusComponent.createKasus(kasus);
         caseResponseDTO.setDocumentId(kasus.getDocumentId());
         caseResponseDTO.setNipPengusul(kasus.getCreatedBy());
+        caseResponseDTO.setCreatedDate(kasus.getCreatedDate());
+//        caseResponseDTO.setStatus(kasus.getStatus());
         return new ResponseEntity<>(caseResponseDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping("/getById/")
+    @GetMapping("/getallbyid/")
     public ResponseEntity<List<CaseResponseDTO>> getAllbyId(@RequestParam BigDecimal id){
         List<Kasus> daftarKasus = manajemenKasusComponent.getAllById(id);
         List<CaseResponseDTO> response = new ArrayList<>();
@@ -80,6 +82,19 @@ public class ManajemenKasusController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/getbyid/")
+    public ResponseEntity<CaseResponseDTO> getById(@RequestParam BigDecimal id){
+        Kasus kasus = manajemenKasusComponent.getById(id);
+        CaseResponseDTO caseResponseDTO = new CaseResponseDTO();
+        caseResponseDTO.setId(kasus.getId());
+        caseResponseDTO.setDocumentId(kasus.getDocumentId());
+        caseResponseDTO.setNipPengusul(kasus.getCreatedBy());
+        caseResponseDTO.setCreatedDate(kasus.getCreatedDate());
+        caseResponseDTO.setStatus(kasus.getStatus().toString());
+        return new ResponseEntity<>(caseResponseDTO, HttpStatus.OK);
+
+    }
+
     @DeleteMapping("/deleteById/")
     public ResponseEntity<List<CaseResponseDTO>> deleteById(@RequestParam BigDecimal id){
         List<Kasus> daftarKasus = manajemenKasusComponent.getAllById(id);
@@ -91,18 +106,14 @@ public class ManajemenKasusController {
 
     @PutMapping("/update/")
     public ResponseEntity<CaseResponseDTO> updateById(@RequestParam BigDecimal id, @RequestBody Kasus kasus){
-        Kasus kasus1 = manajemenKasusComponent.getById(id);
-
         CaseResponseDTO caseResponseDTO = new CaseResponseDTO();
-        if(kasus1.getId() == id){
-            Date tanggal = kasus1.getCreatedDate();
-            kasus = manajemenKasusComponent.updateKasus(kasus);
+            kasus = manajemenKasusComponent.updateKasus(id, kasus);
             caseResponseDTO.setId(kasus.getId());
-            caseResponseDTO.setCreatedDate(tanggal);
+            caseResponseDTO.setCreatedDate(kasus.getCreatedDate());
             caseResponseDTO.setDocumentId(kasus.getDocumentId());
             caseResponseDTO.setNipPengusul(kasus.getCreatedBy());
             caseResponseDTO.setStatus(kasus.getStatus().toString());
-        } return new ResponseEntity<>(caseResponseDTO, HttpStatus.CREATED);
+         return new ResponseEntity<>(caseResponseDTO, HttpStatus.CREATED);
     }
 
 
