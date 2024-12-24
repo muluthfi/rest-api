@@ -73,5 +73,27 @@ public class RiwayatKasus {
         this.createdDate = createdDate;
     }
 
+    public static class Builder {
 
+        private RiwayatKasus result;
+
+        public Builder create(Kasus kasus, String nip) {
+            result = new RiwayatKasus();
+
+            result.setCreatedBy(nip);
+            result.setCreatedDate(new Date());
+            result.setKasus(kasus);
+
+            return this;
+        }
+
+        public Builder asCreation() {
+            result.setAktivitas(Aktivitas.CREATION);
+            return this;
+        }
+
+        public RiwayatKasus build() {
+            return result;
+        }
+    }
 }

@@ -46,17 +46,29 @@ class ManajemenKasusComponentImpl implements ManajemenKasusComponent{
         return kasusRepo.getById(id);
     }
 
-    public Kasus createKasus(Kasus kasus, RiwayatKasus riwayatKasus){
-        kasus.setStatus(Status.DRAFT);
-        kasus.setCreatedDate(new Date());
-        kasus.setCreatedBy(kasus.getCreatedBy());
-        kasus.setDocumentId(kasus.getDocumentId());
-        riwayatKasus.setCreatedBy(kasus.getCreatedBy());
-        riwayatKasus.setCreatedDate(new Date());
-        // riwayatKasus.setKasus(Kasus.getI;
-        riwayatKasus.setAktivitas(Aktivitas.CREATION);
-        kasus = kasusRepo.save(kasus);
-        riwayatKasus = riwayatKasusRepo.save(riwayatKasus);
+    @Override
+    public Kasus getActiveCasesByDocId(BigDecimal documentId, BigDecimal kode) {
+        return kasusRepo.getActiveCasesByDocId(documentId, kode);
+    }
+
+    public Kasus createKasus( Kasus kasus, RiwayatKasus riwayatKasus){  
+        // check apakah dokumen id exist
+        // 1. get kasus by id dokumen
+        Kasus existingKasus = kasusRepo.getActiveCasesByDocId(kasus.getDocumentId(),kasus.getKodeKasus().getKode());
+        if (existingKasus != null) {
+            throw new RuntimeException("Dokumen sudah direkam");
+        } 
+        // if exixst, then throw exception as runtime with message id dokumen sudah ada
+        // save kasus  
+
+        // ada kmeungkinan, kode kasus yg dikirim sama user itu tidak valid/tidak terdaftar
+        // kcek dulu apakah kode kasus ada atau engga, di get dulu
+        // kalo ada, di assign ulang ke kasusnya
+        
+        kasusRepo.save(kasus);
+
+        riwayatKasusRepo.save(riwayatKasus);
+        
         return kasus;
     }
 
@@ -67,11 +79,10 @@ class ManajemenKasusComponentImpl implements ManajemenKasusComponent{
             kasus.setCreatedBy(kasus.getCreatedBy());
             kasus.setCreatedDate(kasusExist.getCreatedDate());
             kasus.setDocumentId(kasus.getDocumentId());
-            kasus = kasusRepo.save(kasus);
+            kasus = kasusRepo.save(kasus); 
         }
-
         return kasus;
-    }
+    }   
 
     public List<Kasus> getAllById(BigDecimal id){
         return kasusRepo.findAllById(id);

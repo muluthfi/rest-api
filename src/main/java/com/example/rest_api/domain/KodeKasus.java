@@ -13,20 +13,57 @@ import java.util.List;
 
 @Entity
 @Table
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
-@Getter
 
 public class KodeKasus {
     @Id
+    @GeneratedValue
     @Column
     private BigDecimal id;
 
+    @Column
+    private BigDecimal kode;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kodeKasus")
-//    private List<KodeKasus> kodeKasus= new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "kodeKasus")
+    private List<Kasus> kasus= new ArrayList<>();
 
     @Column
     private String namaKode;
+
+    public BigDecimal getId() {
+        return id;
+    }
+
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
+
+    public String getNamaKode() {
+        return namaKode;
+    }
+
+    public void setNamaKode(String namaKode) {
+        this.namaKode = namaKode;
+    }
+
+    public BigDecimal getKode() {
+        return kode;
+    }
+
+    public void setKode(BigDecimal kode) {
+        this.kode = kode;
+    }
+
+    public List<Kasus> getKasus() {
+        return kasus;
+    }
+
+    public void setKasus(List<Kasus> kasus) {
+        this.kasus = kasus;
+    }
+
+    
+
+    
+
+
 }

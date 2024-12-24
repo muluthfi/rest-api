@@ -1,9 +1,13 @@
 package com.example.rest_api.controller;
 
+import com.example.rest_api.controller.dto.CaseRequestDTO;
 import com.example.rest_api.controller.dto.CaseResponseDTO;
 import com.example.rest_api.core.feature.manajemenKasus.ManajemenKasusComponent;
+import com.example.rest_api.domain.Aktivitas;
 import com.example.rest_api.domain.Kasus;
+import com.example.rest_api.domain.KodeKasus;
 import com.example.rest_api.domain.RiwayatKasus;
+import com.example.rest_api.domain.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,16 +61,26 @@ public class ManajemenKasusController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    // bikin sebuah request DTO
+
     @PostMapping("/create")
-    public ResponseEntity<CaseResponseDTO> createKasus(@RequestBody Kasus kasus, RiwayatKasus riwayatKasus){
-        CaseResponseDTO caseResponseDTO = new CaseResponseDTO();
-        kasus = manajemenKasusComponent.createKasus(kasus, riwayatKasus);
-        caseResponseDTO.setDocumentId(kasus.getDocumentId());
-        caseResponseDTO.setNipPengusul(kasus.getCreatedBy());
-        caseResponseDTO.setCreatedDate(kasus.getCreatedDate());
-        caseResponseDTO.setNipPengusul(riwayatKasus.getCreatedBy());
-//        caseResponseDTO.setStatus(kasus.getStatus());
-        return new ResponseEntity<>(caseResponseDTO, HttpStatus.CREATED);
+    public ResponseEntity<BigDecimal> createKasus(@RequestBody CaseRequestDTO requestDTO){
+        // disini ada validasi atas request
+        // validasi apakah seluruh request didalam CaseRequestDTO sudah lengkap?
+
+        Kasus kasusToSave = new Kasus.Builder()
+                .create(requestDTO.getIdDokumen(), requestDTO.getNipPengusul(), requestDTO.getKodeKasus())
+                .asDraft()
+                .build();
+
+        RiwayatKasus riwayatToSave = new RiwayatKasus.Builder()
+            .create(kasusToSave, requestDTO.getNipPengusul())
+            .asCreation()
+            .build();
+        
+        kasusToSave = manajemenKasusComponent.createKasus(kasusToSave, riwayatToSave);
+
+        return new ResponseEntity<>(kasusToSave.getId(), HttpStatus.CREATED);
     }
 
     @GetMapping("/getallbyid/")

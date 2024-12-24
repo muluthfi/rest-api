@@ -1,5 +1,6 @@
 package com.example.rest_api.core.feature.manajemenKasus;
 import com.example.rest_api.domain.Kasus;
+import com.example.rest_api.domain.KodeKasus;
 import com.example.rest_api.domain.RiwayatKasus;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,8 +18,7 @@ public interface ManajemenKasusComponent {
     List<Kasus> getAllById(BigDecimal id);
     Kasus getById(BigDecimal id);
     Kasus createKasus(Kasus kasus, RiwayatKasus riwayatKasus);
+    Kasus getActiveCasesByDocId(BigDecimal documentId, BigDecimal kode);
     void deleteById(BigDecimal id);
     Kasus updateKasus(BigDecimal id, Kasus kasus);
-
-
 }

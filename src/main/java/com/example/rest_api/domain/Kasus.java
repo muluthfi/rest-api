@@ -35,9 +35,9 @@ public class Kasus {
     @Column
     private Date createdDate;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn
-//    private KodeKasus kodeKasus;
+    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
+    private KodeKasus kodeKasus;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "kasus")
     private List<RiwayatKasus> caseHistories = new ArrayList<>();
@@ -89,11 +89,50 @@ public class Kasus {
     public void setCaseHistories(List<RiwayatKasus> caseHistories) {
         this.caseHistories = caseHistories;
     }
-//    public KodeKasus getKodeKasus() {
-//        return kodeKasus;
-//    }
-//
-//    public void setKodeKasus(KodeKasus kodeKasus) {
-//        this.kodeKasus = kodeKasus;
-//    }
+
+    public KodeKasus getKodeKasus() {
+        return kodeKasus;
+    }
+
+    public void setKodeKasus(KodeKasus kodeKasus) {
+        this.kodeKasus = kodeKasus;
+    }
+
+    public static class Builder {
+
+        private Kasus result;
+
+        public Builder update(Kasus kasus) {
+            result = kasus;
+            return this;
+        }
+
+        public Builder create(BigDecimal idDokumen, String nip, BigDecimal kode) {
+            result = new Kasus();
+            result.setDocumentId(idDokumen);
+            result.setCreatedBy(nip);
+            result.setCreatedDate(new Date());
+
+            KodeKasus kodeKasus = new KodeKasus();
+            kodeKasus.setKode(kode);
+            result.setKodeKasus(kodeKasus);
+            
+            return this;
+        }
+
+        public Builder asDraft() {
+            result.setStatus(Status.DRAFT);
+            return this;
+        }
+
+        public Builder delete() {
+            result.setStatus(Status.DELETED);
+            return this;
+        }
+
+        public Kasus build() {
+            return this.result;
+        }
+    }
+    
 }

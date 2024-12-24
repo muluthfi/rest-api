@@ -1,6 +1,8 @@
 package com.example.rest_api.core.contract.repo;
 
 import com.example.rest_api.domain.Kasus;
+import com.example.rest_api.domain.KodeKasus;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
@@ -23,6 +25,12 @@ public interface KasusRepo extends JpaRepository<Kasus, BigDecimal> {
     Kasus getById(BigDecimal id);
     void deleteById(BigDecimal id);
 
+    @Query("SELECT a FROM Kasus a join a.kodeKasus b WHERE  a.documentId =?1 AND a.status != 'DELETED' and b.kode =?2 ")
+    Kasus getActiveCasesByDocId(BigDecimal documentId, BigDecimal kode);
+
+    // select * from kasus a join kode_kasus b on a.kode = b.kode where b.kode = kode
+
+    
 
 
 
