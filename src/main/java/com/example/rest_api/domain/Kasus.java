@@ -114,9 +114,9 @@ public class Kasus {
             result.setCreatedDate(new Date());
 
             KodeKasus kodeKasus = new KodeKasus();
-            kodeKasus.setKode(kode);
+            kodeKasus.setId(kode);
             result.setKodeKasus(kodeKasus);
-            
+
             return this;
         }
 

@@ -54,7 +54,7 @@ class ManajemenKasusComponentImpl implements ManajemenKasusComponent{
     public Kasus createKasus( Kasus kasus, RiwayatKasus riwayatKasus){  
         // check apakah dokumen id exist
         // 1. get kasus by id dokumen
-        Kasus existingKasus = kasusRepo.getActiveCasesByDocId(kasus.getDocumentId(),kasus.getKodeKasus().getKode());
+        Kasus existingKasus = kasusRepo.getActiveCasesByDocId(kasus.getDocumentId(),kasus.getKodeKasus().getId());
         if (existingKasus != null) {
             throw new RuntimeException("Dokumen sudah direkam");
         } 

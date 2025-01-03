@@ -20,8 +20,8 @@ public class KodeKasus {
     @Column
     private BigDecimal id;
 
-    @Column
-    private BigDecimal kode;
+    // @Column
+    // private String kode;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "kodeKasus")
     private List<Kasus> kasus= new ArrayList<>();
@@ -45,13 +45,13 @@ public class KodeKasus {
         this.namaKode = namaKode;
     }
 
-    public BigDecimal getKode() {
-        return kode;
-    }
+    // public String getKode() {
+    //     return kode;
+    // }
 
-    public void setKode(BigDecimal kode) {
-        this.kode = kode;
-    }
+    // public void setKode(String kode) {
+    //     this.kode = kode;
+    // }
 
     public List<Kasus> getKasus() {
         return kasus;
