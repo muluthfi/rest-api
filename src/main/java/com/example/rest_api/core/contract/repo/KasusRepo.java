@@ -28,6 +28,9 @@ public interface KasusRepo extends JpaRepository<Kasus, BigDecimal> {
     @Query("SELECT a FROM Kasus a join a.kodeKasus b WHERE  a.documentId =?1 AND a.status != 'DELETED' and b.id =?2 ")
     Kasus getActiveCasesByDocId(BigDecimal documentId, BigDecimal kode);
 
+    @Query("SELECT a FROM Kasus a WHERE a.documentId =?1 and a.status !='DELETED'")
+    Kasus getCaseByDocId(BigDecimal documentId);
+
     // select * from kasus a join kode_kasus b on a.kode = b.kode where b.kode = kode
 
     

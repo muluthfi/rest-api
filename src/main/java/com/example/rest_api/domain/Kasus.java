@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 @Entity
 @Table
 
@@ -23,6 +25,7 @@ public class Kasus {
     private BigDecimal id;
 
     @Column
+    @NotNull
     private BigDecimal documentId;
 
     @Column
@@ -30,12 +33,14 @@ public class Kasus {
     private Status status;
 
     @Column
+    @NotNull
     private String createdBy;
 
     @Column
     private Date createdDate;
 
     @JoinColumn
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     private KodeKasus kodeKasus;
 

@@ -54,12 +54,17 @@ class ManajemenKasusComponentImpl implements ManajemenKasusComponent{
         return kasusRepo.getActiveCasesByDocId(documentId, kode);
     }
 
+    @Override
+    public Kasus getDraftCases(BigDecimal documentId){
+        return kasusRepo.getCaseByDocId(documentId);
+    }
+
     public Kasus createKasus( Kasus kasus, RiwayatKasus riwayatKasus){  
         // check apakah dokumen id exist
         // 1. get kasus by id dokumen
         Kasus existingKasus = kasusRepo.getActiveCasesByDocId(kasus.getDocumentId(),kasus.getKodeKasus().getId());
-        if (existingKasus != null) {
-            throw new RuntimeException("Dokumen sudah direkam");
+        if (existingKasus != null && existingKasus.getStatus() == Status.DELETED) {
+            throw new RuntimeException("Dokumen sudah dihapus/ id dokumen sudah direkam");
         } 
         // if exixst, then throw exception as runtime with message id dokumen sudah ada
         // save kasus  
@@ -80,11 +85,11 @@ class ManajemenKasusComponentImpl implements ManajemenKasusComponent{
         return kodeKasus;
     }
 
-    public Kasus updateKasus(BigDecimal id, Kasus kasus, RiwayatKasus riwayatKasus){
-        Kasus kasusExist = kasusRepo.getById(id);
-        if(kasusExist.getId() == id && kasusExist.getStatus() != Status.DELETED){
+    public Kasus updateKasus(BigDecimal documentId, Kasus kasus, RiwayatKasus riwayatKasus){
+        Kasus kasusExist = kasusRepo.getCaseByDocId(documentId);
+        if(kasusExist != null && kasusExist.getStatus() != Status.DELETED){
             kasus.setStatus(kasus.getStatus());
-            kasus.setCreatedBy(kasus.getCreatedBy());
+            kasus.setCreatedBy(kasusExist.getCreatedBy());
             kasus.setCreatedDate(kasusExist.getCreatedDate());
             kasus.setDocumentId(kasus.getDocumentId());
             kasus = kasusRepo.save(kasus);

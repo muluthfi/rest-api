@@ -93,7 +93,7 @@ public class ManajemenKasusController {
 
     @DeleteMapping("/deletebyid")
     public ResponseEntity<BigDecimal> deleteById(@RequestParam BigDecimal id){
-        Kasus kasusExist = manajemenKasusComponent.getById(id);
+        Kasus kasusExist = manajemenKasusComponent.getDraftCases(id);
         Kasus newKasus = new Kasus.Builder().update(kasusExist).asDelete().build();
 
         RiwayatKasus riwayatToSave = new RiwayatKasus.Builder().create(newKasus, kasusExist.getCreatedBy()).asDeletion().build();
@@ -105,9 +105,8 @@ public class ManajemenKasusController {
 
     @PutMapping("/submit/")
     public ResponseEntity<BigDecimal> submitById(@RequestParam BigDecimal id){
-        Kasus kasusExist = manajemenKasusComponent.getById(id);
+        Kasus kasusExist = manajemenKasusComponent.getDraftCases(id);
         Kasus kasusForApproval = new Kasus.Builder().update(kasusExist).asOpen().build();
-
         RiwayatKasus riwayatKasus = new RiwayatKasus.Builder().create(kasusForApproval, kasusExist.getCreatedBy()).asApproval().build();
 
         kasusForApproval = manajemenKasusComponent.updateKasus(id, kasusForApproval, riwayatKasus);
