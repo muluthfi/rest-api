@@ -3,6 +3,7 @@ package com.example.rest_api.core.feature.manajemenKasus;
 import com.example.rest_api.controller.dto.CaseResponseDTO;
 import com.example.rest_api.core.contract.repo.KasusRepo;
 import com.example.rest_api.core.contract.repo.RiwayatKasusRepo;
+import com.example.rest_api.core.contract.repo.KodeKasusRepo;
 import com.example.rest_api.domain.Aktivitas;
 import com.example.rest_api.domain.Kasus;
 import com.example.rest_api.domain.KodeKasus;
@@ -24,12 +25,14 @@ class ManajemenKasusComponentImpl implements ManajemenKasusComponent{
     private final KasusRepo kasusRepo;
     private final ManajemenKasusRepo manajemenKasusRepo;
     private final RiwayatKasusRepo riwayatKasusRepo;
+    private final KodeKasusRepo kodeKasusRepo;
 
     @Autowired
-    ManajemenKasusComponentImpl(KasusRepo kasusRepo, ManajemenKasusRepo manajemenKasusRepo, RiwayatKasusRepo riwayatKasusRepo) {
+    ManajemenKasusComponentImpl(KasusRepo kasusRepo, ManajemenKasusRepo manajemenKasusRepo, RiwayatKasusRepo riwayatKasusRepo, KodeKasusRepo kodeKasusRepo) {
         this.kasusRepo = kasusRepo;
         this.manajemenKasusRepo = manajemenKasusRepo;
         this.riwayatKasusRepo = riwayatKasusRepo;
+        this.kodeKasusRepo = kodeKasusRepo;
     }
 
     @Override
@@ -70,6 +73,11 @@ class ManajemenKasusComponentImpl implements ManajemenKasusComponent{
         riwayatKasusRepo.save(riwayatKasus);
         
         return kasus;
+    }
+
+    public KodeKasus createKodeKasus(KodeKasus kodeKasus){
+        kodeKasusRepo.save(kodeKasus);
+        return kodeKasus;
     }
 
     public Kasus updateKasus(BigDecimal id, Kasus kasus){

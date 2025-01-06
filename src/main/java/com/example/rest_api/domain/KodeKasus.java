@@ -61,9 +61,21 @@ public class KodeKasus {
         this.kasus = kasus;
     }
 
-    
+    public static class Builder {
 
-    
+        private KodeKasus result;
+
+        public Builder create(String namaKode){
+            result = new KodeKasus();
+            result.setNamaKode(namaKode);
+            return this;
+        }
+
+        public KodeKasus build() {
+            return this.result;
+        }
+
+    }
 
 
 }

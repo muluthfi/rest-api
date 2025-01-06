@@ -9,4 +9,5 @@ public class CaseRequestDTO {
     private BigDecimal idDokumen;
     private BigDecimal kodeKasus;
     private String nipPengusul;
+    private String nmKodeKasus;
 }

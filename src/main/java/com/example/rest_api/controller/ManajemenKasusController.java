@@ -83,6 +83,22 @@ public class ManajemenKasusController {
         return new ResponseEntity<>(kasusToSave.getId(), HttpStatus.CREATED);
     }
 
+    @PostMapping("/create/kodekasus")
+    public ResponseEntity<BigDecimal> createKodeKasus(@RequestBody CaseRequestDTO requestDTO){
+        KodeKasus kodeKasusToSave = new KodeKasus.Builder().create(requestDTO.getNmKodeKasus()).build();
+
+        kodeKasusToSave = manajemenKasusComponent.createKodeKasus(kodeKasusToSave);
+        return new ResponseEntity<>(kodeKasusToSave.getId(), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/deletebyid")
+    public ResponseEntity<BigDecimal> deleteById(@RequestParam BigDecimal id){
+        Kasus kasusExist = manajemenKasusComponent.getById(id);
+        Kasus newKasus = new Kasus.Builder().update(kasusExist).delete().build();
+        newKasus = manajemenKasusComponent.updateKasus(id, newKasus);
+        return new ResponseEntity<>(newKasus.getId(), HttpStatus.CREATED);
+    }
+
     @GetMapping("/getallbyid/")
     public ResponseEntity<List<CaseResponseDTO>> getAllbyId(@RequestParam BigDecimal id){
         List<Kasus> daftarKasus = manajemenKasusComponent.getAllById(id);
@@ -112,14 +128,16 @@ public class ManajemenKasusController {
 
     }
 
-    @DeleteMapping("/deleteById/")
-    public ResponseEntity<List<CaseResponseDTO>> deleteById(@RequestParam BigDecimal id){
-        List<Kasus> daftarKasus = manajemenKasusComponent.getAllById(id);
-        List<CaseResponseDTO> response = new ArrayList<>();
-        for(Kasus kasus : daftarKasus){
-            manajemenKasusComponent.deleteById(kasus.getId());
-        } return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+    // @DeleteMapping("/deleteById/")
+    // public ResponseEntity<List<CaseResponseDTO>> deleteById(@RequestParam BigDecimal id){
+    //     List<Kasus> daftarKasus = manajemenKasusComponent.getAllById(id);
+    //     List<CaseResponseDTO> response = new ArrayList<>();
+    //     for(Kasus kasus : daftarKasus){
+    //         manajemenKasusComponent.deleteById(kasus.getId());
+    //     } return new ResponseEntity<>(response, HttpStatus.OK);
+    // }
+
+    
 
     @PutMapping("/update/")
     public ResponseEntity<CaseResponseDTO> updateById(@RequestParam BigDecimal id, @RequestBody Kasus kasus){

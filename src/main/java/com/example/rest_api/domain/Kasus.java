@@ -103,7 +103,14 @@ public class Kasus {
         private Kasus result;
 
         public Builder update(Kasus kasus) {
-            result = kasus;
+            result = new Kasus();
+            result.setId(kasus.getId());
+            result.setDocumentId(kasus.getDocumentId());
+            result.setCreatedBy(kasus.getCreatedBy());
+            result.setCreatedDate(kasus.getCreatedDate());
+            KodeKasus kodeKasus = new KodeKasus();
+            kodeKasus.setId(kasus.getKodeKasus().getId());
+            result.setKodeKasus(kodeKasus);
             return this;
         }
 
