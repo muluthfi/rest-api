@@ -94,9 +94,25 @@ public class ManajemenKasusController {
     @DeleteMapping("/deletebyid")
     public ResponseEntity<BigDecimal> deleteById(@RequestParam BigDecimal id){
         Kasus kasusExist = manajemenKasusComponent.getById(id);
-        Kasus newKasus = new Kasus.Builder().update(kasusExist).delete().build();
-        newKasus = manajemenKasusComponent.updateKasus(id, newKasus);
+        Kasus newKasus = new Kasus.Builder().update(kasusExist).asDelete().build();
+
+        RiwayatKasus riwayatToSave = new RiwayatKasus.Builder().create(newKasus, kasusExist.getCreatedBy()).asDeletion().build();
+
+        newKasus = manajemenKasusComponent.updateKasus(id, newKasus, riwayatToSave);
+
         return new ResponseEntity<>(newKasus.getId(), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/submit/")
+    public ResponseEntity<BigDecimal> submitById(@RequestParam BigDecimal id){
+        Kasus kasusExist = manajemenKasusComponent.getById(id);
+        Kasus kasusForApproval = new Kasus.Builder().update(kasusExist).asOpen().build();
+
+        RiwayatKasus riwayatKasus = new RiwayatKasus.Builder().create(kasusForApproval, kasusExist.getCreatedBy()).asApproval().build();
+
+        kasusForApproval = manajemenKasusComponent.updateKasus(id, kasusForApproval, riwayatKasus);
+
+        return new ResponseEntity<>(kasusForApproval.getId(), HttpStatus.CREATED);
     }
 
     @GetMapping("/getallbyid/")
@@ -115,6 +131,8 @@ public class ManajemenKasusController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
+
     @GetMapping("/getbyid/")
     public ResponseEntity<CaseResponseDTO> getById(@RequestParam BigDecimal id){
         Kasus kasus = manajemenKasusComponent.getById(id);
@@ -127,29 +145,5 @@ public class ManajemenKasusController {
         return new ResponseEntity<>(caseResponseDTO, HttpStatus.OK);
 
     }
-
-    // @DeleteMapping("/deleteById/")
-    // public ResponseEntity<List<CaseResponseDTO>> deleteById(@RequestParam BigDecimal id){
-    //     List<Kasus> daftarKasus = manajemenKasusComponent.getAllById(id);
-    //     List<CaseResponseDTO> response = new ArrayList<>();
-    //     for(Kasus kasus : daftarKasus){
-    //         manajemenKasusComponent.deleteById(kasus.getId());
-    //     } return new ResponseEntity<>(response, HttpStatus.OK);
-    // }
-
-    
-
-    @PutMapping("/update/")
-    public ResponseEntity<CaseResponseDTO> updateById(@RequestParam BigDecimal id, @RequestBody Kasus kasus){
-        CaseResponseDTO caseResponseDTO = new CaseResponseDTO();
-            kasus = manajemenKasusComponent.updateKasus(id, kasus);
-            caseResponseDTO.setId(kasus.getId());
-            caseResponseDTO.setCreatedDate(kasus.getCreatedDate());
-            caseResponseDTO.setDocumentId(kasus.getDocumentId());
-            caseResponseDTO.setNipPengusul(kasus.getCreatedBy());
-            caseResponseDTO.setStatus(kasus.getStatus().toString());
-         return new ResponseEntity<>(caseResponseDTO, HttpStatus.CREATED);
-    }
-
 
 }

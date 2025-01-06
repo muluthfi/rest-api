@@ -132,7 +132,12 @@ public class Kasus {
             return this;
         }
 
-        public Builder delete() {
+        public Builder asOpen() {
+            result.setStatus(Status.OPEN);
+            return this;
+        }
+
+        public Builder asDelete() {
             result.setStatus(Status.DELETED);
             return this;
         }

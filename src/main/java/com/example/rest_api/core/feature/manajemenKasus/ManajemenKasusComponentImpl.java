@@ -80,14 +80,17 @@ class ManajemenKasusComponentImpl implements ManajemenKasusComponent{
         return kodeKasus;
     }
 
-    public Kasus updateKasus(BigDecimal id, Kasus kasus){
+    public Kasus updateKasus(BigDecimal id, Kasus kasus, RiwayatKasus riwayatKasus){
         Kasus kasusExist = kasusRepo.getById(id);
-        if(kasusExist.getId() == id){
+        if(kasusExist.getId() == id && kasusExist.getStatus() != Status.DELETED){
             kasus.setStatus(kasus.getStatus());
             kasus.setCreatedBy(kasus.getCreatedBy());
             kasus.setCreatedDate(kasusExist.getCreatedDate());
             kasus.setDocumentId(kasus.getDocumentId());
-            kasus = kasusRepo.save(kasus); 
+            kasus = kasusRepo.save(kasus);
+            riwayatKasus = riwayatKasusRepo.save(riwayatKasus);
+        } else {
+            throw new RuntimeException("Dokumen sudah dihapus");
         }
         return kasus;
     }   

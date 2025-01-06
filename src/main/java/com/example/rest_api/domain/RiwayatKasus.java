@@ -92,6 +92,16 @@ public class RiwayatKasus {
             return this;
         }
 
+        public Builder asDeletion() {
+            result.setAktivitas(Aktivitas.DELETION);
+            return this;
+        }
+
+        public Builder asApproval() {
+            result.setAktivitas(Aktivitas.SUBMITED_FOR_APPROVAL);
+            return this;
+        }
+
         public RiwayatKasus build() {
             return result;
         }
