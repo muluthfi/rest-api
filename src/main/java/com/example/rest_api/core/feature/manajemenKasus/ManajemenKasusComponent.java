@@ -19,7 +19,6 @@ public interface ManajemenKasusComponent {
     Kasus getById(BigDecimal id);
     Kasus createKasus(Kasus kasus, RiwayatKasus riwayatKasus);
     Kasus getActiveCasesByDocId(BigDecimal documentId, BigDecimal kode);
-    void deleteById(BigDecimal id);
     Kasus updateKasus(BigDecimal documentId, Kasus kasus, RiwayatKasus riwayatKasus);
     KodeKasus createKodeKasus(KodeKasus kodeKasus);
     Kasus getDraftCases(BigDecimal documentId);

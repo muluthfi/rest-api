@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -33,7 +35,7 @@ public class Kasus {
     private Status status;
 
     @Column
-    @NotNull
+    @NotNull @NotBlank(message = "NIP Tidak Boleh kosong")
     private String createdBy;
 
     @Column

@@ -103,9 +103,4 @@ class ManajemenKasusComponentImpl implements ManajemenKasusComponent{
     public List<Kasus> getAllById(BigDecimal id){
         return kasusRepo.findAllById(id);
     }
-
-    @Override
-    public void deleteById(BigDecimal id) {
-        kasusRepo.deleteById(id);
-    }
 }
